@@ -91,8 +91,8 @@ class Router {
             //This route is a match for our request, let's get the controller working on it
             if ($forceRoute || ($goodRoute && ($i >= count($path_components) || $path_components[$i] == ""))) {
                 $request->set('module', $module);
-                $request->set('controller', $controller.'Controller');
-                $request->set('action', $action.'Action');
+                $request->set('controller', $controller);
+                $request->set('action', $action);
                 foreach ($parameters as $key => $value) {
                     $request->set($key, $value);
                 }

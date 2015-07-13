@@ -7,10 +7,12 @@ require_once 'Controller.php';
 class RequestHandler {
     protected $applicationPath;
     protected $controllerPath;
+    protected $viewPath;
 
     public function __construct($applicationPath) {
         $this->applicationPath = $applicationPath;
         $this->controllerPath = $applicationPath .'/controllers';
+        $this->viewPath = $applicationPath .'/views';
     }
 
     public function handle() {
@@ -18,11 +20,10 @@ class RequestHandler {
         $response = new Response();
         $request = Router::route($request);
 
-        $className = ucfirst($request->getClassName());
-        $methodName = $request->getMethodName();
+        $className = ucfirst($request->getClassName()).'Controller';
 
         require_once($this->controllerPath.'/'.$className.'.php');
-        $mainController = new $className($request, $response);
+        $mainController = new $className($this->viewPath);
 
         if (is_null($mainController)) {
             $response-set('Not found');
@@ -30,7 +31,7 @@ class RequestHandler {
         }
         $mainController->setRequest($request);
         $mainController->setResponse($response);
-        $returnValue = $mainController->$methodName();
+        $returnValue = $mainController->handle();
         if(!is_null($returnValue)){
             $response->add($returnValue);
         }
