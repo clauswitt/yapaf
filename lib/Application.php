@@ -1,7 +1,6 @@
 <?php
 namespace yapaf;
-require_once 'Response.php';
-require_once 'Request.php';
+require_once 'RequestHandler.php';
 class Application
 {
     protected $rootPath;
@@ -13,15 +12,12 @@ class Application
         $this->rootPath = $rootPath;
         $this->applicationPath = $applicationPath;
         $this->publicPath = $publicPath;
-        $this->request = new Request;
-        $this->response = new Response;
+        require_once $this->applicationPath . '/routes.php';
     }
 
     public function run() {
-        $requestURI = $this->request->getRequestUri();
-        $name = $this->request->get('name');
-        $this->response->set('test ok: ' . $requestURI . ' - says name is: ' .$name);
-        return $this->response->render();
+        $requestHandler = new RequestHandler($this->applicationPath);
+        return $requestHandler->handle();
     }
 }
 
