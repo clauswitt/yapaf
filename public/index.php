@@ -20,7 +20,7 @@ if (php_sapi_name() == "cli-server") {
 $rootPath = realpath(__DIR__ . '/..');
 $applicationPath = realpath(__DIR__ . '/../app');
 
-require_once $rootPath . '/Application.php';
+require_once $rootPath . '/lib/Application.php';
 $application = new \yapaf\Application($rootPath, $applicationPath, dirname(__FILE__));
 
 echo $application->run();
