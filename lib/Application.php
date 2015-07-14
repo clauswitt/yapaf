@@ -21,9 +21,7 @@ class Application
 
     public function run() {
         $this->configure();
-        if($_ENV['YAPAF_DEV_SERVER']==1) {
-            \yapaf\DevServer::handle();
-        }
+        \yapaf\DevServer::handle();
         $requestHandler = new RequestHandler($this->configuration);
         return $requestHandler->handle();
     }
