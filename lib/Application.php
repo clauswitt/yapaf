@@ -7,15 +7,24 @@ class Application
     protected $publicPath;
     protected $request;
     protected $response;
-    public function __construct($rootPath, $applicationPath, $publicPath) {
-        $this->rootPath = $rootPath;
+    public function __construct($applicationPath=null) {
+        if(is_null($applicationPath)) {
+            $applicationPath = realpath($_SERVER["DOCUMENT_ROOT"].'/../app');
+        }
         $this->applicationPath = $applicationPath;
-        $this->publicPath = $publicPath;
-        require_once $this->applicationPath . '/routes.php';
+        $this->configuration = Configuration::create($this->applicationPath);
+    }
+
+    public function configure() {
+        $this->configuration->registerRoutes();
     }
 
     public function run() {
-        $requestHandler = new RequestHandler($this->applicationPath);
+        $this->configure();
+        if($_ENV['YAPAF_DEV_SERVER']==1) {
+            \yapaf\DevServer::handle();
+        }
+        $requestHandler = new RequestHandler($this->configuration);
         return $requestHandler->handle();
     }
 }

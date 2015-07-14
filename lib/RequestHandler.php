@@ -5,26 +5,16 @@ class RequestHandler {
     protected $controllerPath;
     protected $viewPath;
 
-    public function __construct($applicationPath) {
-        $this->applicationPath = $applicationPath;
-        $this->controllerPath = $applicationPath .'/controllers';
-        $this->viewPath = $applicationPath .'/views';
+    public function __construct($configuration) {
+        $this->configuration = $configuration;
     }
 
     public function handle() {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->configuration->getRequest();
+        $response = $this->configuration->getResponse();
         $request = Router::route($request);
-        $mainController = null;
 
-        $className = ucfirst($request->getClassName()).'Controller';
-
-        if(file_exists($this->controllerPath.'/'.$className.'.php')) {
-            require_once($this->controllerPath.'/'.$className.'.php');
-            $mainController = new $className($this->viewPath);
-            $mainController->setRequest($request);
-            $mainController->setResponse($response);
-        }
+        $mainController = $this->configuration->getController();
 
         if (is_null($mainController)) {
             $response->set('Not found');

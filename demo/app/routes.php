@@ -1,5 +1,5 @@
 <?php
-$GLOBALS['routes'] = array(
+return array(
     '/[controller]/[action].:format' => '',
     '/[controller]/[action]' => ''
 );

@@ -1,11 +1,4 @@
 <?php
-$rootPath = realpath(__DIR__ . '/..');
-require_once $rootPath . '/../vendor/autoload.php';
-
-if($_ENV['YAPAF_DEV_SERVER']==1) {
-    \yapaf\DevServer::handle();
-}
-
-$applicationPath = $rootPath . '/app';
-$application = new \yapaf\Application($rootPath, $applicationPath, dirname(__FILE__));
+require_once __DIR__ .'/../../vendor/autoload.php';
+$application = new \yapaf\Application;
 echo $application->run();
