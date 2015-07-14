@@ -1,5 +1,8 @@
+test:
+	phpunit
+
 .PHONY: webserver
-webserver:
+server:
 	./start_local.sh
 
 setup:
