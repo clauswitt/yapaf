@@ -1,6 +1,5 @@
 <?php
 namespace yapaf;
-require_once 'View.php';
 class Controller
 {
     protected $response;

@@ -1,9 +1,5 @@
 <?php
 namespace yapaf;
-require_once 'Router.php';
-require_once 'Response.php';
-require_once 'Request.php';
-require_once 'Controller.php';
 class RequestHandler {
     protected $applicationPath;
     protected $controllerPath;
@@ -19,18 +15,23 @@ class RequestHandler {
         $request = new Request();
         $response = new Response();
         $request = Router::route($request);
+        $mainController = null;
 
         $className = ucfirst($request->getClassName()).'Controller';
 
-        require_once($this->controllerPath.'/'.$className.'.php');
-        $mainController = new $className($this->viewPath);
+        if(file_exists($this->controllerPath.'/'.$className.'.php')) {
+            require_once($this->controllerPath.'/'.$className.'.php');
+            $mainController = new $className($this->viewPath);
+            $mainController->setRequest($request);
+            $mainController->setResponse($response);
+        }
 
         if (is_null($mainController)) {
-            $response-set('Not found');
+            $response->set('Not found');
             $response->setStatus(404, 'Not Found');
+            return $response->render();
         }
-        $mainController->setRequest($request);
-        $mainController->setResponse($response);
+
         $returnValue = $mainController->handle();
         if(!is_null($returnValue)){
             $response->add($returnValue);

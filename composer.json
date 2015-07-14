@@ -1,0 +1,18 @@
+{
+    "name": "clauswitt/yapaf",
+    "description": "Yet Another Php Application Framework",
+    "require-dev": {
+        "phpunit/phpunit": "~4.7"
+    },
+    "license": "WTFPL",
+    "authors": [
+        {
+            "name": "Claus Witt",
+            "email": "claus@wittnezz.dk"
+        }
+    ],
+  "autoload": {
+    "psr-4": {"yapaf\\": "lib/"}
+  },
+    "require": {}
+}

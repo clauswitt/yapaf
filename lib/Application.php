@@ -1,6 +1,5 @@
 <?php
 namespace yapaf;
-require_once 'RequestHandler.php';
 class Application
 {
     protected $rootPath;
